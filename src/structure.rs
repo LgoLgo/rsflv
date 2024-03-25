@@ -1,6 +1,8 @@
-use crate::error::SignatureError;
+use crate::error::Error;
 
 pub const SIGNATURE: &[u8] = b"FLV";
+pub const HEADER_SIZE: usize = 9;
+pub const TAG_HEADER_SIZE: usize = 11;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Header {
@@ -11,13 +13,17 @@ pub struct Header {
 }
 
 impl TryFrom<&[u8]> for Header {
-    type Error = SignatureError;
+    type Error = Error;
 
     fn try_from(input: &[u8]) -> Result<Self, Self::Error> {
         match &input[..3] {
             SIGNATURE => {}
             unknown => {
-                return Err(unknown.into());
+                return Err(Error::Signature(
+                    unknown[0] as char,
+                    unknown[1] as char,
+                    unknown[2] as char,
+                ));
             }
         }
         Ok(Header {
@@ -29,8 +35,9 @@ impl TryFrom<&[u8]> for Header {
     }
 }
 
+#[cfg(test)]
 mod tests {
-    use crate::structure::{Header};
+    use crate::structure::Header;
 
     #[test]
     fn test_header() {
