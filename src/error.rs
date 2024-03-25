@@ -11,6 +11,26 @@ pub enum Error {
     Signature(char, char, char),
     #[error("invalid previous tag size: {0}")]
     PreviousTagSize(u32),
+    #[error("invalid tag type: {0}")]
+    TagType(u8),
+
+    #[error("invalid sound format: {0}")]
+    InvalidSoundFormat(u8),
+    #[error("invalid sample rate: {0}")]
+    InvalidSampleRate(u8),
+    #[error("invalid bit depth: {0}")]
+    InvalidBitDepth(u8),
+    #[error("invalid channel: {0}")]
+    InvalidChannel(u8),
+    #[error("invalid aac packet type: {0}")]
+    InvalidAACPacketType(u8),
+
+    #[error("invalid video frame type: {0}")]
+    InvalidVideoFrameType(u8),
+    #[error("invalid video codec id: {0}")]
+    InvalidVideoCodecId(u8),
+    #[error("invalid avc packet type: {0}")]
+    InvalidAVCPacketType(u8),
 }
 
 #[derive(Debug, ThisError)]
